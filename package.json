@@ -1,0 +1,24 @@
+{
+  "name": "calc-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node dist/index.js",
+    "build": "rimraf ./dist && tsc"
+  },
+  "bin": "./dist/index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "@types/readline-sync": "^1.4.4",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
