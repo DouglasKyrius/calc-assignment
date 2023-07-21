@@ -11,11 +11,10 @@ async function calculator() {
     result
   );
 
-  function clearOperation(invalidExpression = false) {
+  function clearOperation() {
     expression = "";
     result = 0;
     console.clear();
-    if (invalidExpression) console.log("Invalid expression. Please try again.");
     console.log(result);
   }
 
@@ -39,13 +38,10 @@ async function calculator() {
       if (result !== null) {
         result = evaluate(expression, true);
         console.log(result);
-        if (isNaN(result)) {
-          clearOperation(true);
-        }
         expression = result.toString();
         result = 0;
       } else {
-        clearOperation(true);
+        clearOperation();
       }
     } else {
       expression += userInput;
