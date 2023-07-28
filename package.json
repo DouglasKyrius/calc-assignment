@@ -1,9 +1,9 @@
 {
-  "name": "calc-assignment",
+  "name": "calculator-cli",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "start": "npm run build && node dist/index.js",
     "build": "rimraf ./dist && tsc"

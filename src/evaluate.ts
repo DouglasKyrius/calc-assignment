@@ -7,8 +7,8 @@ function isDigit(char: string): boolean {
 }
 
 function evaluate(expression: string, includesEquals = false): number {
-  const tokens: (string | number)[] = [];
   let currentToken = "";
+  const tokens: (string | number)[] = [];
 
   for (const char of expression) {
     if (isOperator(char)) {

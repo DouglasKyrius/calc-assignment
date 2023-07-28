@@ -1,21 +1,26 @@
 import readlineSync from "readline-sync";
 import { evaluate } from "./evaluate.js";
+import { data } from "./appData.js";
 
 async function calculator() {
   let iter = true;
-  let expression = "";
-  let result = 0;
 
   console.log(
-    'CLI Calculator - Type an expression or "c" to clear and "q" to quit.\n\n',
-    result
+    'CLI Calculator - Type an expression or "c" to clear and "q" to quit.\n\n' +
+      data.getResult()
   );
 
   function clearOperation() {
-    expression = "";
-    result = 0;
+    data.reset();
     console.clear();
-    console.log(result);
+    console.log(data.getResult());
+  }
+
+  function quitApp() {
+    console.log("\nClosing CLI Calculator, please wait.");
+    setTimeout((): void => {
+      console.clear();
+    }, 1500);
   }
 
   while (iter) {
@@ -23,29 +28,28 @@ async function calculator() {
 
     if (userInput.includes("q")) {
       iter = false;
-      console.log("\nClosing CLI Calculator, please wait.");
-      setTimeout((): void => {
-        console.clear();
-      }, 1500);
+      quitApp();
       break;
     }
 
     if (userInput === "c") {
       clearOperation();
     } else if (userInput.includes("=")) {
-      expression += userInput.replace("=", "");
+      data.addExpression(userInput.replace("=", ""));
 
-      if (result !== null) {
-        result = evaluate(expression, true);
-        console.log(result);
-        expression = result.toString();
-        result = 0;
+      if (data.getResult() !== null) {
+        data.setResult(evaluate(data.getExpression(), true));
+
+        console.log(data.getResult());
+
+        data.setExpression(data.getResult().toString());
+        data.setResult(0);
       } else {
         clearOperation();
       }
     } else {
-      expression += userInput;
-      result = evaluate(expression);
+      data.addExpression(userInput);
+      data.setResult(evaluate(data.getExpression()));
     }
   }
 }
