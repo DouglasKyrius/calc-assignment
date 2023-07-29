@@ -10,8 +10,13 @@ interface Data {
 }
 
 class OperationsData implements Data {
-  public result: number = 0;
-  public expression: string = "";
+  public result: number;
+  public expression: string;
+
+  constructor() {
+    this.result = 0;
+    this.expression = this.result.toString();
+  }
 
   public getResult(): number {
     return this.result;
@@ -31,8 +36,8 @@ class OperationsData implements Data {
   }
 
   public reset(): void {
-    this.expression = "";
     this.result = 0;
+    this.expression = this.result.toString();
   }
 }
 
