@@ -1,20 +1,17 @@
 #!/usr/bin/env node
 import { calculator } from "./calculator.js";
+import { startUp } from "./utils.js";
 
-function runApp(): Promise<boolean> {
-  return new Promise((resolve) => {
-    resolve(true);
-  });
+function bootstrap(): void {
+  calculator();
 }
 
-let appPromise: Promise<boolean> = runApp();
-appPromise
-  .then((): void => {
-    calculator();
-  })
-  .catch((): void => {
-    console.log("\nThere is some Internal Error.\nPlease Try Again Later");
-    setTimeout((): void => {
-      console.clear();
-    }, 1000);
-  });
+try {
+  startUp();
+  bootstrap();
+} catch (error) {
+  console.log("\nThere is some Internal Error.\nPlease Try Again Later");
+  setTimeout((): void => {
+    console.clear();
+  }, 2000);
+}
