@@ -1,27 +1,10 @@
 import readlineSync from "readline-sync";
-import { evaluate } from "./evaluate.js";
+import { evaluate } from "./evaluateTree.js";
 import { data } from "./appData.js";
+import { clearOperation, quitApp } from "./utils.js";
 
-async function calculator() {
+function calculator() {
   let iter = true;
-
-  console.log(
-    'CLI Calculator - Type an expression or "c" to clear and "q" to quit.\n\n' +
-      data.getResult()
-  );
-
-  function clearOperation() {
-    data.reset();
-    console.clear();
-    console.log(data.getResult());
-  }
-
-  function quitApp() {
-    console.log("\nClosing CLI Calculator, please wait.");
-    setTimeout((): void => {
-      console.clear();
-    }, 1500);
-  }
 
   while (iter) {
     const userInput = readlineSync.question("> ");
@@ -32,24 +15,36 @@ async function calculator() {
       break;
     }
 
-    if (userInput === "c") {
-      clearOperation();
+    if (userInput.includes("c")) {
+      clearOperation({});
     } else if (userInput.includes("=")) {
       data.addExpression(userInput.replace("=", ""));
 
       if (data.getResult() !== null) {
-        data.setResult(evaluate(data.getExpression(), true));
+        data.setResult(evaluate(data.getExpression())!);
 
         console.log(data.getResult());
 
         data.setExpression(data.getResult().toString());
         data.setResult(0);
       } else {
-        clearOperation();
+        clearOperation({ error: true });
       }
     } else {
+      const tokens = userInput.match(/\d+|\+|\-|\*|\//g);
+
       data.addExpression(userInput);
-      data.setResult(evaluate(data.getExpression()));
+      data.setResult(evaluate(data.getExpression())!);
+
+      if (tokens) {
+        const lastToken = tokens[tokens.length - 1];
+
+        if (/\d+/.test(lastToken)) {
+          console.log(parseFloat(lastToken));
+        } else {
+          console.log(lastToken);
+        }
+      }
     }
   }
 }
